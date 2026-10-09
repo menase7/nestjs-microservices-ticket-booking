@@ -1,0 +1,11 @@
+{
+  "name": "microservices-nestjs-kafka",
+  "version": "1.0.0",
+  "description": "Ticket Booking Microservices System with NestJS and Apache Kafka",
+  "scripts": {
+    "infra:up": "docker compose up -d",
+    "infra:down": "docker compose down",
+    "start:booking": "npm --prefix booking-service run start:dev",
+    "start:notification": "npm --prefix notification-service run start:dev"
+  }
+}

@@ -1,22 +1,37 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { BookingController } from './booking.controller';
 import { BookingService } from './booking.service';
+import { Booking } from './booking.entity';
 
 @Module({
   imports: [
-    // Register the Kafka client microservice provider
+    // Connect to PostgreSQL container on port 5434
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5434,
+      username: 'postgres',
+      password: 'postgrespassword',
+      database: 'ticket_booking_db',
+      entities: [Booking],
+      synchronize: true, // Auto-creates/syncs table schema in development
+    }),
+    TypeOrmModule.forFeature([Booking]),
+
+    // Register Kafka client provider
     ClientsModule.register([
       {
-        name: 'KAFKA_SERVICE', // Injection token used in BookingService: @Inject('KAFKA_SERVICE')
+        name: 'KAFKA_SERVICE',
         transport: Transport.KAFKA,
         options: {
           client: {
-            clientId: 'booking-service', // Identifier for this producer client in Kafka
-            brokers: ['localhost:9092'], // Address of our running Kafka broker container
+            clientId: 'booking-service',
+            brokers: ['localhost:9092'],
           },
           consumer: {
-            groupId: 'booking-producer-client-group', // Consumer group ID used for internal replies
+            groupId: 'booking-producer-client-group',
           },
         },
       },

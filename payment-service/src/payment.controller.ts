@@ -8,12 +8,10 @@ export class PaymentController {
 
   /**
    * Request-Reply pattern:
-   * Notice @MessagePattern (NOT @EventPattern).
-   * Whatever this function returns is automatically sent back to the
-   * producer (Booking Service) via Kafka's reply topic!
+   * Saves transaction in PostgreSQL and returns receipt to Booking Service
    */
   @MessagePattern('process-payment')
-  handleProcessPayment(@Payload() paymentData: any) {
-    return this.paymentService.processPayment(paymentData);
+  async handleProcessPayment(@Payload() paymentData: any) {
+    return await this.paymentService.processPayment(paymentData);
   }
 }

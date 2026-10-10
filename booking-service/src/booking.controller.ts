@@ -11,6 +11,11 @@ export class BookingController {
     return { status: 'UP', service: 'booking-service', timestamp: new Date() };
   }
 
+  @Get()
+  async getAllBookings() {
+    return await this.bookingService.getAllBookings();
+  }
+
   @Post()
   async createBooking(@Body() createBookingDto: CreateBookingDto) {
     return await this.bookingService.createBooking(createBookingDto);

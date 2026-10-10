@@ -35,6 +35,7 @@ flowchart LR
 | Service | Role | Pattern | Communication |
 | :--- | :--- | :--- | :--- |
 | **Kafka & Kafka-UI** | Message Broker & Visual Dashboard | Infrastructure | `localhost:9092` & `localhost:8080` |
+| **PostgreSQL 16** | Relational Database | Infrastructure | `localhost:5434` (DB: `ticket_booking_db`) |
 | **`booking-service`** | API Gateway & Orchestrator | HTTP REST + Kafka Client | Port `3000` |
 | **`payment-service`** | Payment Processing Worker | **Request-Reply RPC** (`@MessagePattern`) | Kafka (`process-payment`) |
 | **`notification-service`** | Email/SMS Notification Worker | **Event Streaming** (`@EventPattern`) | Kafka (`booking-created`) |
